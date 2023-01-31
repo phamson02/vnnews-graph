@@ -1,0 +1,27 @@
+{
+  "nodes": [
+    {
+      "key": "1",
+      "label": "Phạm Minh Chính",
+      "tag": "PER",
+      "x": 1,
+      "y": 2,
+      "cluster": "0"
+    },
+    {
+      "key": "2",
+      "label": "Nguyễn Xuân Phúc",
+      "tag": "PER",
+      "x": 3,
+      "y": 4,
+      "cluster": "0"
+    }
+  ],
+  "edges": [["1", "2"]],
+  "clusters": [{ "key": "0", "color": "#6c3e81", "clusterLabel": "All nodes" }],
+  "tags": [
+    { "key": "ORG", "image": "organization.svg" },
+    { "key": "PER", "image": "person.svg" },
+    { "key": "LOC", "image": "unknown.svg" }
+  ]
+}
