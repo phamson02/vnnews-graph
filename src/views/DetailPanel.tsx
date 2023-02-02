@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { BsInfoCircle } from "react-icons/bs";
 import FormSearch from "../components/node/FormSearch";
 import { FiltersState } from "../types";
@@ -8,17 +8,15 @@ import SearchField from "./SearchField";
 
 const DetailPanel: FC<{
   filters: FiltersState;
-}> = ({  filters }) => {
+}> = ({ filters }) => {
   return (
     <Panel
       title={
         <>
           <BsInfoCircle className="text-muted" /> Details
         </>
-      }
-    >
+      }>
       <FormSearch filters={filters} />
-      
     </Panel>
   );
 };
