@@ -12,6 +12,7 @@
     "graphology": "^0.23.2",
     "graphology-layout": "^0.6.1",
     "graphology-layout-forceatlas2": "^0.8.1",
+    "graphology-shortest-path": "^2.0.1",
     "graphology-types": "^0.24.5",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
