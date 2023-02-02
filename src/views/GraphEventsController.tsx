@@ -35,6 +35,16 @@ const GraphEventsController: FC<{ setHoveredNode: (node: string | null) => void 
         const mouseLayer = getMouseLayer();
         if (mouseLayer) mouseLayer.classList.remove("mouse-pointer");
       },
+      clickEdge({ edge }) {
+      },
+      enterEdge() {
+        const mouseLayer = getMouseLayer();
+        if (mouseLayer) mouseLayer.classList.add("mouse-pointer");
+      },
+      leaveEdge() {
+        const mouseLayer = getMouseLayer();
+        if (mouseLayer) mouseLayer.classList.remove("mouse-pointer");
+      }
     });
   }, []);
 

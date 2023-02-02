@@ -1,15 +1,15 @@
 export interface NodeData {
   key: string;
-  label: string;
+  name: string;
   tag: string;
   cluster: string;
 }
 
 export interface EdgeData {
-  from: string;
-  to: string;
+  source: string;
+  target: string;
   size: number;
-  article_keys: number[];
+  articles: ArticleData[];
 }
 
 export interface ArticleData {
@@ -32,7 +32,7 @@ export interface Tag {
 
 export interface Dataset {
   nodes: NodeData[];
-  edges: [string, string][];
+  edges: EdgeData[];
   clusters: Cluster[];
   tags: Tag[];
 }

@@ -19,6 +19,8 @@ import "react-sigma-v2/lib/react-sigma-v2.css";
 import { GrClose } from "react-icons/gr";
 import { BiRadioCircleMarked, BiBookContent } from "react-icons/bi";
 import { BsArrowsFullscreen, BsFullscreenExit, BsZoomIn, BsZoomOut } from "react-icons/bs";
+import DetailPanel from "./DetailPanel";
+import { getData } from "../api/getData";
 
 const Root: FC = () => {
   const [showContents, setShowContents] = useState(false);
@@ -32,24 +34,23 @@ const Root: FC = () => {
 
   // Load data on mount:
   useEffect(() => {
-    fetch(`${process.env.PUBLIC_URL}/data.json`)
-      .then((res) => res.json())
+    getData()
       .then((dataset: Dataset) => {
         setDataset(dataset);
         setFiltersState({
           clusters: mapValues(keyBy(dataset.clusters, "key"), constant(true)),
           tags: mapValues(keyBy(dataset.tags, "key"), constant(true)),
         });
-        requestAnimationFrame(() => setDataReady(true));
       });
   }, []);
 
   if (!dataset) return null;
+  requestAnimationFrame(() => setDataReady(true));
 
   return (
     <div id="app-root" className={showContents ? "show-contents" : ""}>
       <SigmaContainer
-        graphOptions={{ type: "directed" }}
+        graphOptions={{ type: "directed", multi: true }}
         initialSettings={{
           nodeProgramClasses: { image: getNodeProgramImage() },
           labelRenderer: drawLabel,
@@ -63,8 +64,8 @@ const Root: FC = () => {
         }}
         className="react-sigma"
       >
-        <GraphSettingsController hoveredNode={hoveredNode} />
-        <GraphEventsController setHoveredNode={setHoveredNode} />
+        <GraphSettingsController hoveredNode={hoveredNode}/>
+        <GraphEventsController setHoveredNode={setHoveredNode}/>
         <GraphDataController dataset={dataset} filters={filtersState} />
 
         {dataReady && (
@@ -141,6 +142,7 @@ const Root: FC = () => {
                     }));
                   }}
                 />
+                <DetailPanel/>
               </div>
             </div>
           </>

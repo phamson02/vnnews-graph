@@ -23,21 +23,26 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({ 
       graph.addNode(node.key, {
         ...node,
         ...omit(clusters[node.cluster], "key"),
-        image: `${process.env.PUBLIC_URL}/images/${tags[node.tag].image}`,
+        // image: `/images/${tags[node.tag].image}`,
       }),
     );
-    dataset.edges.forEach(([source, target]) => graph.addEdge(source, target, { size: 1 }));
+    // dataset.edges.forEach(([source, target]) => graph.addEdge(source, target, { size: 1 }));
+    dataset.edges.forEach((edge) => graph.addEdge(edge.source, edge.target, { size: edge.size }));
 
     const positions = circular(graph, {dimensions: ['x', 'y']});
-    console.log(positions);
     graph.forEachNode((node) => {
       const { x, y } = positions[node];
       graph.setNodeAttribute(node, "x", x);
       graph.setNodeAttribute(node, "y", y);
     });
 
-    const settings = forceAtlas2.inferSettings(graph);
-    forceAtlas2.assign(graph, { settings, iterations: 60 });
+    forceAtlas2.assign(graph, {
+      iterations: 100,
+      attributes: {
+        weight: "size",
+      },
+      weighted: true
+    });
 
     // Use degrees as node sizes:
     const scores = graph.nodes().map((node) => graph.getNodeAttribute(node, "score"));
@@ -64,7 +69,8 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({ 
   useEffect(() => {
     const { clusters, tags } = filters;
     graph.forEachNode((node, { cluster, tag }) =>
-      graph.setNodeAttribute(node, "hidden", !clusters[cluster] || !tags[tag]),
+      // graph.setNodeAttribute(node, "hidden", !clusters[cluster] || !tags[tag]),
+      graph.setNodeAttribute(node, "hidden", !clusters[cluster]),
     );
   }, [graph, filters]);
 
