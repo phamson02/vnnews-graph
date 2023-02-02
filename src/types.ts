@@ -1,8 +1,9 @@
 export interface NodeData {
   key: string;
-  name: string;
+  label: string;
   tag: string;
   cluster: string;
+  score: number;
 }
 
 export interface EdgeData {
