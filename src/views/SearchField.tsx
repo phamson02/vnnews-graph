@@ -27,11 +27,15 @@ const SearchField: FC<{ filters: FiltersState }> = ({ filters }) => {
           newValues.push({ id: key, label: attributes.label });
       });
     }
+    console.log(newValues);
+    
     setValues(newValues);
   };
 
   // Refresh values when search is updated:
-  useEffect(() => refreshValues(), [search]);
+  useEffect(() => {
+    refreshValues()
+  }, [search]);
 
   // Refresh values when filters are updated (but wait a frame first):
   useEffect(() => {
@@ -51,7 +55,7 @@ const SearchField: FC<{ filters: FiltersState }> = ({ filters }) => {
           duration: 600,
         },
       );
-
+        
     return () => {
       sigma.getGraph().setNodeAttribute(selected, "highlighted", false);
     };

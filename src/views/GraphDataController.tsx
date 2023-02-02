@@ -19,12 +19,13 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({ 
     const clusters = keyBy(dataset.clusters, "key");
     const tags = keyBy(dataset.tags, "key");
 
-    dataset.nodes.forEach((node) =>
-      graph.addNode(node.key, {
+    dataset.nodes.forEach((node) => {
+      return graph.addNode(node.key, {
         ...node,
         ...omit(clusters[node.cluster], "key"),
-        // image: `/images/${tags[node.tag].image}`,
-      }),
+        image: `/images/${tags[node.tag].image}`,
+      });
+    }
     );
     // dataset.edges.forEach(([source, target]) => graph.addEdge(source, target, { size: 1 }));
     dataset.edges.forEach((edge) => graph.addEdge(edge.source, edge.target, { size: edge.size }));

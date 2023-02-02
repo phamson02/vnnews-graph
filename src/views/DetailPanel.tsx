@@ -1,9 +1,14 @@
 import React, { FC } from "react";
 import { BsInfoCircle } from "react-icons/bs";
+import FormSearch from "../components/node/FormSearch";
+import { FiltersState } from "../types";
 
 import Panel from "./Panel";
+import SearchField from "./SearchField";
 
-const DetailPanel: FC = () => {
+const DetailPanel: FC<{
+  filters: FiltersState;
+}> = ({  filters }) => {
   return (
     <Panel
       title={
@@ -12,6 +17,8 @@ const DetailPanel: FC = () => {
         </>
       }
     >
+      <FormSearch filters={filters} />
+      
     </Panel>
   );
 };
