@@ -23,7 +23,7 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({ 
       graph.addNode(node.key, {
         ...node,
         ...omit(clusters[node.cluster], "key"),
-        // image: `/images/${tags[node.tag].image}`,
+        image: `${process.env.PUBLIC_URL}/images/${tags[node.tag]?.image}`,
       }),
     );
     // dataset.edges.forEach(([source, target]) => graph.addEdge(source, target, { size: 1 }));
@@ -69,8 +69,7 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({ 
   useEffect(() => {
     const { clusters, tags } = filters;
     graph.forEachNode((node, { cluster, tag }) =>
-      // graph.setNodeAttribute(node, "hidden", !clusters[cluster] || !tags[tag]),
-      graph.setNodeAttribute(node, "hidden", !clusters[cluster]),
+      graph.setNodeAttribute(node, "hidden", !clusters[cluster] || !tags[tag]),
     );
   }, [graph, filters]);
 

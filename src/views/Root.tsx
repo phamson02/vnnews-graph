@@ -37,20 +37,21 @@ const Root: FC = () => {
     getData()
       .then((dataset: Dataset) => {
         setDataset(dataset);
+        if (!dataset) return null;
         setFiltersState({
           clusters: mapValues(keyBy(dataset.clusters, "key"), constant(true)),
           tags: mapValues(keyBy(dataset.tags, "key"), constant(true)),
         });
+        requestAnimationFrame(() => setDataReady(true));
       });
   }, []);
 
   if (!dataset) return null;
-  requestAnimationFrame(() => setDataReady(true));
 
   return (
     <div id="app-root" className={showContents ? "show-contents" : ""}>
       <SigmaContainer
-        graphOptions={{ type: "directed", multi: true }}
+        graphOptions={{ type: "undirected"}}
         initialSettings={{
           nodeProgramClasses: { image: getNodeProgramImage() },
           labelRenderer: drawLabel,
@@ -142,7 +143,7 @@ const Root: FC = () => {
                     }));
                   }}
                 />
-                <DetailPanel/>
+                <DetailPanel filters={filtersState}/>
               </div>
             </div>
           </>

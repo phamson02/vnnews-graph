@@ -6,6 +6,7 @@ export interface NodeData {
 }
 
 export interface EdgeData {
+  key: string;
   source: string;
   target: string;
   size: number;
