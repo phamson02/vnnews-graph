@@ -46,11 +46,11 @@ const DetailPanel: FC<{
       sigma.setSetting(
         "nodeReducer", (node, data) => {
           if (node === source || node === target) {
-            return { ...data, highlighted: true, color: "#00FF00" }
+            return { ...data, highlighted: true, color: "#00FF00", zIndex: 1}
           } else if (nodePath.includes(node)) {
-            return { ...data, highlighted: true, color: "#FF0000" }
+            return { ...data, highlighted: true, color: "#FF0000", zIndex: 1 }
           } else {
-            return { ...data, highlighted: false, color: "#000000" }
+            return { ...data, highlighted: false, color: "#bbb", zIndex: 0, label: "", image: null, }
           }
         }
       );
@@ -58,9 +58,9 @@ const DetailPanel: FC<{
       sigma.setSetting(
         "edgeReducer", (edge, data) => {
           if (edgePath.includes(edge)) {
-            return { ...data, highlighted: true, color: "#FF0000" }
+            return { ...data, color: "#FF0000" }
           } else {
-            return { ...data, highlighted: false, color: "#000000" }
+            return { ...data, hidden: true, color: "#eee",  }
           }
         }
       );
