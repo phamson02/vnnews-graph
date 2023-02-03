@@ -30,7 +30,6 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({
         image: `${process.env.PUBLIC_URL}/images/${tags[node.tag]?.image}`,
       });
     });
-    // dataset.edges.forEach(([source, target]) => graph.addEdge(source, target, { size: 1 }));
     dataset.edges.forEach((edge) =>
       graph.addEdge(edge.source, edge.target, { size: edge.size })
     );
