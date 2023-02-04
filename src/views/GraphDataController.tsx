@@ -42,7 +42,11 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({
     });
 
     forceAtlas2.assign(graph, {
-      iterations: 5,    
+      iterations: 40,
+      attributes: {
+        weight: "size",
+      },
+      weighted: true,
     });
 
     // Use degrees as node sizes:
