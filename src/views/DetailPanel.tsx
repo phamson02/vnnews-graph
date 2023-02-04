@@ -58,7 +58,7 @@ const DetailPanel: FC<{
       sigma.setSetting(
         "edgeReducer", (edge, data) => {
           if (edgePath.includes(edge)) {
-            return { ...data, color: "#FF0000" }
+            return { ...data, color: "#FF0000", zIndex: 1 }
           } else {
             return { ...data, hidden: true, color: "#eee",  }
           }
