@@ -31,7 +31,7 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({
       });
     });
     dataset.edges.forEach((edge) =>
-      graph.addEdge(edge.source, edge.target, { size: edge.size })
+      graph.addEdge(edge.source, edge.target, { size: edge.size / 10 })
     );
 
     const positions = random(graph, { dimensions: ["x", "y"] });
@@ -42,7 +42,8 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({
     });
 
     forceAtlas2.assign(graph, {
-      iterations: 10,    });
+      iterations: 5,    
+    });
 
     // Use degrees as node sizes:
     const scores = graph
