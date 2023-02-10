@@ -42,7 +42,7 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({
     });
 
     forceAtlas2.assign(graph, {
-      iterations: 40,
+      iterations: 100,
       attributes: {
         weight: "size",
       },
