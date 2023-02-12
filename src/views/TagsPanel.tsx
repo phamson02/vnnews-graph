@@ -59,7 +59,7 @@ const TagsPanel: FC<{
       }
     >
       <p>
-        <i className="text-muted">Click a category to show/hide related pages from the network.</i>
+        <i className="text-muted">Click a category to show/hide related entities from the network.</i>
       </p>
       <p className="buttons">
         <button className="btn" onClick={() => setTags(mapValues(keyBy(tags, "key"), () => true))}>

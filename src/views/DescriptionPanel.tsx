@@ -14,30 +14,14 @@ const DescriptionPanel: FC = () => {
       }
     >
       <p>
-        This map represents a <i>network</i> of Wikipedia articles around the topic of "Data vizualisation". Each{" "}
-        <i>node</i> represents an article, and each edge a{" "}
-        <a target="_blank" rel="noreferrer" href="https://en.wikipedia.org/wiki/See_also">
-          "See also" link
-        </a>
-        .
+        This map represents a <i>network</i> of entities and their relationships as extracted from Vietnamese online news articles. Each{" "}
+        <i>node</i> represents an entity (a person or group of persons), and each edge some articles in which the two entities are  mentioned together.
       </p>
       <p>
-        The seed articles were selected by hand by the{" "}
-        <a target="_blank" rel="noreferrer" href="https://medialab.sciencespo.fr/">
-          Sciences-Po médialab
-        </a>{" "}
-        team, and the network was crawled using{" "}
-        <a target="_blank" rel="noreferrer" href="https://densitydesign.github.io/strumentalia-seealsology/">
-          Seealsology
-        </a>
-        , and then cleaned and enriched manually. This makes the dataset creditable to both the médialab team and{" "}
-        <a target="_blank" rel="noreferrer" href="https://en.wikipedia.org/wiki/Wikipedia:Wikipedians">
-          Wikipedia editors
-        </a>
-        .
+        The map is updated daily with new articles. You can use the search bar to find a specific entity, or click on a node to see the articles in which it appears.
       </p>
       <p>
-        This web application has been developed by{" "}
+        The template of this web application has been developed by{" "}
         <a target="_blank" rel="noreferrer" href="https://www.ouestware.com/en/">
           OuestWare
         </a>
@@ -57,11 +41,10 @@ const DescriptionPanel: FC = () => {
       </p>
       <p>
         Nodes sizes are related to their{" "}
-        <a target="_blank" rel="noreferrer" href="https://en.wikipedia.org/wiki/Betweenness_centrality">
-          betweenness centrality
+        <a target="_blank" rel="noreferrer" href="https://en.wikipedia.org/wiki/Eigenvector_centrality">
+          eigenvector centrality
         </a>
-        . More central nodes (ie. bigger nodes) are important crossing points in the network. Finally, You can click a
-        node to open the related Wikipedia article.
+        . We assign the size for each node of each person or organisation based on how many other influential people or organisations they have appeared together with.
       </p>
     </Panel>
   );

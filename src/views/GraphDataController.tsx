@@ -1,7 +1,7 @@
 import { useSigma } from "react-sigma-v2";
 import { FC, useEffect } from "react";
 import { keyBy, omit } from "lodash";
-import circular from "graphology-layout/circular";
+import {random} from 'graphology-layout';
 import forceAtlas2 from "graphology-layout-forceatlas2";
 
 import { Dataset, FiltersState } from "../types";
@@ -30,12 +30,11 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({
         image: `${process.env.PUBLIC_URL}/images/${tags[node.tag]?.image}`,
       });
     });
-    // dataset.edges.forEach(([source, target]) => graph.addEdge(source, target, { size: 1 }));
     dataset.edges.forEach((edge) =>
-      graph.addEdge(edge.source, edge.target, { size: edge.size })
+      graph.addEdge(edge.source, edge.target, { size: edge.size / 10 })
     );
 
-    const positions = circular(graph, { dimensions: ["x", "y"] });
+    const positions = random(graph, { dimensions: ["x", "y"] });
     graph.forEachNode((node) => {
       const { x, y } = positions[node];
       graph.setNodeAttribute(node, "x", x);
@@ -43,7 +42,7 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({
     });
 
     forceAtlas2.assign(graph, {
-      iterations: 100,
+      iterations: 40,
       attributes: {
         weight: "size",
       },

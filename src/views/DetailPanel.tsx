@@ -1,14 +1,83 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { BsInfoCircle } from "react-icons/bs";
-import FormSearch from "../components/node/FormSearch";
 import { FiltersState } from "../types";
+import { dijkstra, edgePathFromNodePath } from "graphology-shortest-path";
+import { useSigma } from "react-sigma-v2";
 
 import Panel from "./Panel";
-import SearchField from "./SearchField";
+import NodeSearchField from "../components/node/NodeSearchField";
+import EdgesDetailPanel from "../components/node/EdgesDetailPanel";
 
 const DetailPanel: FC<{
   filters: FiltersState;
 }> = ({ filters }) => {
+  const sigma = useSigma();
+  const graph = sigma.getGraph();
+
+  const [source, setSource] = useState<string | null>(null);
+  const [target, setTarget] = useState<string | null>(null);
+  const [showDetails, setShowDetails] = useState<boolean>();
+
+  let nodePath1: string[] = [];
+  let edgePath1: string[] = [];
+  const [nodePath, setNodePath] = useState<string[]>([]);
+  const [edgePath, setEdgePath] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (source && target) {
+      setNodePath(dijkstra.bidirectional(graph, source, target));
+      nodePath1 = dijkstra.bidirectional(graph, source, target);
+      if (nodePath1) {
+        setShowDetails(true);
+        setEdgePath(edgePathFromNodePath(graph, nodePath1));
+        edgePath1 = edgePathFromNodePath(graph, nodePath1);
+        const sourceDisplayData = sigma.getNodeDisplayData(source);
+        const targetDisplayData = sigma.getNodeDisplayData(target);
+
+        if (sourceDisplayData && targetDisplayData)
+          sigma.getCamera().animate(
+            {
+              x: (sourceDisplayData.x + targetDisplayData.x) / 2,
+              y: (sourceDisplayData.y + targetDisplayData.y) / 2,
+              ratio: 0.2,
+            },
+            {
+              duration: 600,
+            }
+          );
+
+        sigma.setSetting("nodeReducer", (node, data) => {
+          if (node === source || node === target) {
+            return { ...data, highlighted: true, color: "#00FF00", zIndex: 1 };
+          } else if (nodePath1?.includes(node)) {
+            return { ...data, highlighted: true, color: "#FF0000", zIndex: 1 };
+          } else {
+            return {
+              ...data,
+              highlighted: false,
+              color: "#bbb",
+              zIndex: 0,
+              label: "",
+              image: null,
+            };
+          }
+        });
+
+        sigma.setSetting("edgeReducer", (edge, data) => {
+          if (edgePath1?.includes(edge)) {
+            return { ...data, color: "#FF0000", zIndex: 1 };
+          } else {
+            return { ...data, hidden: true, color: "#eee" };
+          }
+        });
+      } else {
+        setShowDetails(false);
+      }
+    } else {
+      setShowDetails(undefined);
+    }
+  }, [source, target]);
+
   return (
     <Panel
       title={
@@ -16,7 +85,29 @@ const DetailPanel: FC<{
           <BsInfoCircle className="text-muted" /> Details
         </>
       }>
-      <FormSearch filters={filters} />
+      <div className="text-center">
+        <p className="text-muted">Select two nodes to see details</p>
+      </div>
+      <div className="search-wrapper">
+        <NodeSearchField
+          filters={filters}
+          selected={source}
+          setSelected={setSource}
+        />
+        <NodeSearchField
+          filters={filters}
+          selected={target}
+          setSelected={setTarget}
+        />
+      </div>
+      {showDetails && (
+        <EdgesDetailPanel nodePath={nodePath} edgePath={edgePath} />
+      )}
+      {showDetails === false && (
+        <div className="text-center">
+          <p className="text-muted">No path found</p>
+        </div>
+      )}
     </Panel>
   );
 };
