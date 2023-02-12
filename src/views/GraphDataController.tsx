@@ -1,8 +1,9 @@
 import { useSigma } from "react-sigma-v2";
 import { FC, useEffect } from "react";
 import { keyBy, omit } from "lodash";
-import {random} from 'graphology-layout';
+import {circular, random} from 'graphology-layout';
 import forceAtlas2 from "graphology-layout-forceatlas2";
+import betweennessCentrality from 'graphology-metrics/centrality/betweenness';
 
 import { Dataset, FiltersState } from "../types";
 
@@ -34,20 +35,30 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({
       graph.addEdge(edge.source, edge.target, { size: edge.size / 10 })
     );
 
-    const positions = random(graph, { dimensions: ["x", "y"] });
+    const positions = circular(graph, { dimensions: ["x", "y"], scale: 100 });
     graph.forEachNode((node) => {
       const { x, y } = positions[node];
       graph.setNodeAttribute(node, "x", x);
       graph.setNodeAttribute(node, "y", y);
     });
 
+    // To directly map the result onto a custom attribute:
+    betweennessCentrality.assign(graph, {attributes: {'centrality': 'score'}});
+
     forceAtlas2.assign(graph, {
-      iterations: 40,
+      iterations: 1000,
       attributes: {
         weight: "size",
       },
       weighted: true,
-    });
+      settings: {
+        adjustSizes: true,
+        barnesHutOptimize: true,
+        barnesHutTheta: 1,
+        scalingRatio: 10,
+        edgeWeightInfluence : 1,
+        gravity: 40,
+      }});
 
     // Use degrees as node sizes:
     const scores = graph
@@ -56,7 +67,7 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({
     const minDegree = Math.min(...scores);
     const maxDegree = Math.max(...scores);
     const MIN_NODE_SIZE = 3;
-    const MAX_NODE_SIZE = 30;
+    const MAX_NODE_SIZE = 20;
     graph.forEachNode((node) =>
       graph.setNodeAttribute(
         node,
@@ -67,6 +78,7 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({
           MIN_NODE_SIZE
       )
     );
+
 
     return () => graph.clear();
   }, [graph, dataset]);
