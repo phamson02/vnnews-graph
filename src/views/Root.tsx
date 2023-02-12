@@ -63,7 +63,7 @@ const Root: FC = () => {
           defaultEdgeType: "line",
           labelDensity: 0.07,
           labelGridCellSize: 60,
-          labelRenderedSizeThreshold: 15,
+          labelRenderedSizeThreshold: 10,
           labelFont: "Lato, sans-serif",
           zIndex: true,
         }}
