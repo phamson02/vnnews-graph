@@ -9,10 +9,7 @@ const EdgesDetailPanel: FC<{
   const sigma = useSigma();
   const graph = sigma.getGraph();
 
-  return (
-      <div className="search-wrapper">
-      </div>
-  );
+  return <div className="search-wrapper"></div>;
 };
 
 export default EdgesDetailPanel;
