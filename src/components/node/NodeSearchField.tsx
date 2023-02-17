@@ -37,8 +37,6 @@ const NodeSearchField: FC<{
             newValues.push({ id: key, label: attributes.label });
         });
     }
-    console.log(newValues);
-
     setValues(newValues);
   };
 

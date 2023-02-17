@@ -16,67 +16,76 @@ const DetailPanel: FC<{
 
   const [source, setSource] = useState<string | null>(null);
   const [target, setTarget] = useState<string | null>(null);
-  const [showDetails, setShowDetails] = useState<boolean>();
+  const [showDetails, setShowDetails] = useState<boolean>(false);
 
-  let nodePath1: string[] = [];
-  let edgePath1: string[] = [];
   const [nodePath, setNodePath] = useState<string[]>([]);
   const [edgePath, setEdgePath] = useState<string[]>([]);
 
   useEffect(() => {
     if (source && target) {
-      setNodePath(dijkstra.bidirectional(graph, source, target));
-      nodePath1 = dijkstra.bidirectional(graph, source, target);
-      if (nodePath1) {
-        setShowDetails(true);
-        setEdgePath(edgePathFromNodePath(graph, nodePath1));
-        edgePath1 = edgePathFromNodePath(graph, nodePath1);
-        const sourceDisplayData = sigma.getNodeDisplayData(source);
-        const targetDisplayData = sigma.getNodeDisplayData(target);
-
-        if (sourceDisplayData && targetDisplayData)
-          sigma.getCamera().animate(
-            {
-              x: (sourceDisplayData.x + targetDisplayData.x) / 2,
-              y: (sourceDisplayData.y + targetDisplayData.y) / 2,
-              ratio: 0.2,
-            },
-            {
-              duration: 600,
-            }
-          );
-
-        sigma.setSetting("nodeReducer", (node, data) => {
-          if (node === source || node === target) {
-            return { ...data, highlighted: true, color: "#00FF00", zIndex: 1 };
-          } else if (nodePath1?.includes(node)) {
-            return { ...data, highlighted: true, color: "#FF0000", zIndex: 1 };
-          } else {
-            return {
-              ...data,
-              highlighted: false,
-              color: "#bbb",
-              zIndex: 0,
-              label: "",
-              image: null,
-            };
-          }
-        });
-
-        sigma.setSetting("edgeReducer", (edge, data) => {
-          if (edgePath1?.includes(edge)) {
-            return { ...data, color: "#FF0000", zIndex: 1 };
-          } else {
-            return { ...data, hidden: true, color: "#eee" };
-          }
-        });
-      } else {
-        setShowDetails(false);
+      const path = dijkstra.bidirectional(graph, source, target)
+      setNodePath(path);
+      
+      if (path?.length) {
+        setEdgePath(edgePathFromNodePath(graph, path));
       }
-    } else {
-      setShowDetails(undefined);
+
+      const sourceDisplayData = sigma.getNodeDisplayData(source);
+      const targetDisplayData = sigma.getNodeDisplayData(target);
+
+      if (sourceDisplayData && targetDisplayData)
+        sigma.getCamera().animate(
+          {
+            x: (sourceDisplayData.x + targetDisplayData.x) / 2,
+            y: (sourceDisplayData.y + targetDisplayData.y) / 2,
+            ratio: 0.3,
+          },
+          {
+            duration: 600,
+          }
+        );
+
+        if (sourceDisplayData && targetDisplayData) {
+          console.log((sourceDisplayData.x + targetDisplayData.x) / 2),
+          console.log((sourceDisplayData.y + targetDisplayData.y) / 2)
+        }
     }
   }, [source, target]);
+
+  useEffect(() => {
+    // Check if nodePath is null
+    if (!nodePath?.length) {
+      setShowDetails(false);
+      return;
+    }
+
+    sigma.setSetting("nodeReducer", (node, data) => {
+      if (node === source || node === target) {
+        return { ...data, highlighted: true, color: "#00FF00", zIndex: 1 };
+      } else if (nodePath.includes(node)) {
+        return { ...data, highlighted: true, color: "#FF0000", zIndex: 1 };
+      } else {
+        return {
+          ...data,
+          highlighted: false,
+          color: "#bbb",
+          zIndex: 0,
+          label: "",
+          image: null,
+        };
+      }
+    });
+
+    sigma.setSetting("edgeReducer", (edge, data) => {
+      if (edgePath.includes(edge)) {
+        return { ...data, color: "#FF0000", zIndex: 1 };
+      } else {
+        return { ...data, hidden: true, color: "#eee" };
+      }
+    });
+
+    setShowDetails(true);
+  }, [nodePath, edgePath]);
 
   return (
     <Panel
@@ -100,10 +109,9 @@ const DetailPanel: FC<{
           setSelected={setTarget}
         />
       </div>
-      {showDetails && (
+      {showDetails ? (
         <EdgesDetailPanel nodePath={nodePath} edgePath={edgePath} />
-      )}
-      {showDetails === false && (
+      ) : (
         <div className="text-center">
           <p className="text-muted">No path found</p>
         </div>
