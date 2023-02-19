@@ -1,7 +1,7 @@
 import { useSigma } from "react-sigma-v2";
 import { FC, useEffect } from "react";
 import { keyBy, omit } from "lodash";
-import { circular, random } from "graphology-layout";
+import { circular } from "graphology-layout";
 import forceAtlas2 from "graphology-layout-forceatlas2";
 import betweennessCentrality from "graphology-metrics/centrality/betweenness";
 

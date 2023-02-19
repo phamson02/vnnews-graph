@@ -44,6 +44,8 @@ const DetailPanel: FC<{
             duration: 600,
           }
         );
+    } else {
+      setShowDetails(false);
     }
   }, [source, target]);
 

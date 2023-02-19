@@ -1,6 +1,6 @@
 import { Attributes } from "graphology-types";
 import React, { FC, useState } from "react";
-import { BsArrow90DegDown, BsInfoCircle } from "react-icons/bs";
+import { BsArrow90DegDown } from "react-icons/bs";
 import { useSigma } from "react-sigma-v2";
 import { ArticleData } from "../types";
 
@@ -8,8 +8,7 @@ import { ArticleData } from "../types";
 const EdgeDetail: FC<{
   source: string;
   target: string;
-  label: string[];
-}> = ({ source, target, label }) => {
+}> = ({ source, target }) => {
   const [showArticles, setShowArticles] = useState(false);
   const sigma = useSigma();
   const graph = sigma.getGraph();
@@ -28,7 +27,7 @@ const EdgeDetail: FC<{
       <button onClick={() => setShowArticles(!showArticles)}>
         <BsArrow90DegDown /> {showArticles ? "Hide" : "Show"} Articles
       </button>
-      {showArticles && articles.length > 0 ? (
+      {showArticles && 
         <ul>
           {articles.map((article, index) => (
             <li key={index}>
@@ -40,8 +39,7 @@ const EdgeDetail: FC<{
               </p>
             </li>
           ))}
-        </ul>
-      ) : <></>}
+        </ul>}
     </div>
   );
 };

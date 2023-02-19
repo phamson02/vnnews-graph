@@ -1,6 +1,4 @@
-import { Attributes } from "graphology-types";
-import React, { FC, useEffect, useState } from "react";
-import { BsInfoCircle } from "react-icons/bs";
+import React, { FC } from "react";
 import { useSigma } from "react-sigma-v2";
 import EdgeDetail from "./EdgeDetail";
 
@@ -28,7 +26,6 @@ const EdgesDetailPanel: FC<{
               key={`${node}-${nodePath[index + 1]}`}
               source={node}
               target={nodePath[index + 1]}
-              label={[label[index], label[index + 1]]}
             />         
           </div>
         );
