@@ -1,9 +1,9 @@
 import { useSigma } from "react-sigma-v2";
 import { FC, useEffect } from "react";
 import { keyBy, omit } from "lodash";
-import {circular, random} from 'graphology-layout';
+import { circular, random } from "graphology-layout";
 import forceAtlas2 from "graphology-layout-forceatlas2";
-import betweennessCentrality from 'graphology-metrics/centrality/betweenness';
+import betweennessCentrality from "graphology-metrics/centrality/betweenness";
 
 import { Dataset, FiltersState } from "../types";
 
@@ -32,7 +32,10 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({
       });
     });
     dataset.edges.forEach((edge) =>
-      graph.addEdge(edge.source, edge.target, { size: edge.size / 10 })
+      graph.addEdge(edge.source, edge.target, {
+        size: edge.size / 10,
+        articles: edge.articles,
+      })
     );
 
     const positions = circular(graph, { dimensions: ["x", "y"], scale: 100 });
@@ -43,7 +46,9 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({
     });
 
     // To directly map the result onto a custom attribute:
-    betweennessCentrality.assign(graph, {attributes: {'centrality': 'score'}});
+    betweennessCentrality.assign(graph, {
+      attributes: { centrality: "score" },
+    });
 
     forceAtlas2.assign(graph, {
       iterations: 1000,
@@ -56,9 +61,10 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({
         barnesHutOptimize: true,
         barnesHutTheta: 1,
         scalingRatio: 10,
-        edgeWeightInfluence : 1,
+        edgeWeightInfluence: 1,
         gravity: 40,
-      }});
+      },
+    });
 
     // Use degrees as node sizes:
     const scores = graph
@@ -78,7 +84,6 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({
           MIN_NODE_SIZE
       )
     );
-
 
     return () => graph.clear();
   }, [graph, dataset]);

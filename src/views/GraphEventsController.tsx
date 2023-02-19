@@ -5,7 +5,9 @@ function getMouseLayer() {
   return document.querySelector(".sigma-mouse");
 }
 
-const GraphEventsController: FC<{ setHoveredNode: (node: string | null) => void }> = ({ setHoveredNode, children }) => {
+const GraphEventsController: FC<{
+  setHoveredNode: (node: string | null) => void;
+}> = ({ setHoveredNode, children }) => {
   const sigma = useSigma();
   const graph = sigma.getGraph();
   const registerEvents = useRegisterEvents();
@@ -20,7 +22,10 @@ const GraphEventsController: FC<{ setHoveredNode: (node: string | null) => void 
         if (!graph.getNodeAttribute(node, "hidden")) {
           const label = graph.getNodeAttribute(node, "label");
           const encodedSearchQuery = encodeURIComponent(label);
-          window.open(`https://news.google.com/search?q=${encodedSearchQuery}&hl=vi&gl=VN&ceid=VN:vi`, "_blank");
+          window.open(
+            `https://news.google.com/search?q=${encodedSearchQuery}&hl=vi&gl=VN&ceid=VN:vi`,
+            "_blank"
+          );
         }
       },
       enterNode({ node }) {
@@ -36,6 +41,7 @@ const GraphEventsController: FC<{ setHoveredNode: (node: string | null) => void 
         if (mouseLayer) mouseLayer.classList.remove("mouse-pointer");
       },
       clickEdge({ edge }) {
+        
       },
       enterEdge() {
         const mouseLayer = getMouseLayer();
@@ -44,7 +50,7 @@ const GraphEventsController: FC<{ setHoveredNode: (node: string | null) => void 
       leaveEdge() {
         const mouseLayer = getMouseLayer();
         if (mouseLayer) mouseLayer.classList.remove("mouse-pointer");
-      }
+      },
     });
   }, []);
 

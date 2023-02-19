@@ -5,8 +5,8 @@ import { dijkstra, edgePathFromNodePath } from "graphology-shortest-path";
 import { useSigma } from "react-sigma-v2";
 
 import Panel from "./Panel";
-import NodeSearchField from "../components/node/NodeSearchField";
-import EdgesDetailPanel from "../components/node/EdgesDetailPanel";
+import NodeSearchField from "../components/NodeSearchField";
+import EdgesDetailPanel from "../components/EdgesDetailPanel";
 
 const DetailPanel: FC<{
   filters: FiltersState;
@@ -23,9 +23,9 @@ const DetailPanel: FC<{
 
   useEffect(() => {
     if (source && target) {
-      const path = dijkstra.bidirectional(graph, source, target)
+      const path = dijkstra.bidirectional(graph, source, target);
       setNodePath(path);
-      
+
       if (path?.length) {
         setEdgePath(edgePathFromNodePath(graph, path));
       }
@@ -44,11 +44,6 @@ const DetailPanel: FC<{
             duration: 600,
           }
         );
-
-        if (sourceDisplayData && targetDisplayData) {
-          console.log((sourceDisplayData.x + targetDisplayData.x) / 2),
-          console.log((sourceDisplayData.y + targetDisplayData.y) / 2)
-        }
     }
   }, [source, target]);
 
@@ -110,7 +105,10 @@ const DetailPanel: FC<{
         />
       </div>
       {showDetails ? (
-        <EdgesDetailPanel nodePath={nodePath} edgePath={edgePath} />
+        <EdgesDetailPanel
+          nodePath={nodePath}
+          edgePath={edgePath}
+        />
       ) : (
         <div className="text-center">
           <p className="text-muted">No path found</p>
