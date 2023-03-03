@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import { BsSearch } from "react-icons/bs";
 import { useSigma } from "react-sigma-v2";
-import { FiltersState } from "../../types";
+import { FiltersState } from "../types";
 
 const NodeSearchField: FC<{
   filters: FiltersState;
@@ -37,8 +37,6 @@ const NodeSearchField: FC<{
             newValues.push({ id: key, label: attributes.label });
         });
     }
-    console.log(newValues);
-
     setValues(newValues);
   };
 
