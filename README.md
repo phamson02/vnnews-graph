@@ -14,7 +14,7 @@ To install and run the frontend, follow these steps:
 
 1. Clone this repository to your local machine.
 2. Navigate to the repository directory and run `npm install` to install the dependencies.
-3. Create an environment variable named `REACT_APP_DATA_API` with the value `https://lionfish-app-pnbyg.ondigitalocean.app/api`.
+3. Create an environment variable named `REACT_APP_API_URL` with the value `https://lionfish-app-pnbyg.ondigitalocean.app/api`.
 4. Run `npm start` to start the development server.
 5. Open `http://localhost:3000` in your web browser to view the application.
 
