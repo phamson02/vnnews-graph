@@ -2,6 +2,8 @@ export interface NodeData {
   key: string;
   label: string;
   tag: string;
+  x: number;
+  y: number;
   cluster: string;
   score: number;
 }

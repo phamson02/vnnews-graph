@@ -26,6 +26,7 @@ import {
 } from "react-icons/bs";
 import DetailPanel from "./DetailPanel";
 import { getData } from "../api/getData";
+import ReactLoading from 'react-loading';
 
 const Root: FC = () => {
   const [showContents, setShowContents] = useState(false);
@@ -50,108 +51,108 @@ const Root: FC = () => {
     });
   }, []);
 
-  if (!dataset) return null;
-
   return (
-    <div id="app-root" className={showContents ? "show-contents" : ""}>
-      <SigmaContainer
-        graphOptions={{ type: "undirected" }}
-        initialSettings={{
-          nodeProgramClasses: { image: getNodeProgramImage() },
-          labelRenderer: drawLabel,
-          defaultNodeType: "image",
-          defaultEdgeType: "line",
-          labelDensity: 0.07,
-          labelGridCellSize: 60,
-          labelRenderedSizeThreshold: 10,
-          labelFont: "Lato, sans-serif",
-          zIndex: true,
-        }}
-        className="react-sigma">
-        <GraphSettingsController hoveredNode={hoveredNode} />
-        <GraphEventsController setHoveredNode={setHoveredNode} />
-        <GraphDataController dataset={dataset} filters={filtersState} />
+    <div id="app-root" className={showContents ? "show-contents" : ""} style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}>
+      {dataset ? 
+        <SigmaContainer
+          graphOptions={{ type: "undirected" }}
+          initialSettings={{
+            nodeProgramClasses: { image: getNodeProgramImage() },
+            labelRenderer: drawLabel,
+            defaultNodeType: "image",
+            defaultEdgeType: "line",
+            labelDensity: 0.07,
+            labelGridCellSize: 60,
+            labelRenderedSizeThreshold: 10,
+            labelFont: "Lato, sans-serif",
+            zIndex: true,
+          }}
+          className="react-sigma">
+          <GraphSettingsController hoveredNode={hoveredNode} />
+          <GraphEventsController setHoveredNode={setHoveredNode} />
+          <GraphDataController dataset={dataset} filters={filtersState} />
 
-        {dataReady && (
-          <>
-            <div className="controls">
-              <div className="ico">
-                <button
-                  type="button"
-                  className="show-contents"
-                  onClick={() => setShowContents(true)}
-                  title="Show caption and description">
-                  <BiBookContent />
-                </button>
-              </div>
-              <FullScreenControl
-                className="ico"
-                customEnterFullScreen={<BsArrowsFullscreen />}
-                customExitFullScreen={<BsFullscreenExit />}
-              />
-              <ZoomControl
-                className="ico"
-                customZoomIn={<BsZoomIn />}
-                customZoomOut={<BsZoomOut />}
-                customZoomCenter={<BiRadioCircleMarked />}
-              />
+          <div className="controls">
+            <div className="ico">
+              <button
+                type="button"
+                className="show-contents"
+                onClick={() => setShowContents(true)}
+                title="Show caption and description">
+                <BiBookContent />
+              </button>
             </div>
-            <div className="contents">
-              <div className="ico">
-                <button
-                  type="button"
-                  className="ico hide-contents"
-                  onClick={() => setShowContents(false)}
-                  title="Show caption and description">
-                  <GrClose />
-                </button>
-              </div>
-              <GraphTitle filters={filtersState} />
-              <div className="panels">
-                <SearchField filters={filtersState} />
-                <DescriptionPanel />
-                <ClustersPanel
-                  clusters={dataset.clusters}
-                  filters={filtersState}
-                  setClusters={(clusters) =>
-                    setFiltersState((filters) => ({
-                      ...filters,
-                      clusters,
-                    }))
-                  }
-                  toggleCluster={(cluster) => {
-                    setFiltersState((filters) => ({
-                      ...filters,
-                      clusters: filters.clusters[cluster]
-                        ? omit(filters.clusters, cluster)
-                        : { ...filters.clusters, [cluster]: true },
-                    }));
-                  }}
-                />
-                <TagsPanel
-                  tags={dataset.tags}
-                  filters={filtersState}
-                  setTags={(tags) =>
-                    setFiltersState((filters) => ({
-                      ...filters,
-                      tags,
-                    }))
-                  }
-                  toggleTag={(tag) => {
-                    setFiltersState((filters) => ({
-                      ...filters,
-                      tags: filters.tags[tag]
-                        ? omit(filters.tags, tag)
-                        : { ...filters.tags, [tag]: true },
-                    }));
-                  }}
-                />
-                <DetailPanel filters={filtersState} />
-              </div>
+            <FullScreenControl
+              className="ico"
+              customEnterFullScreen={<BsArrowsFullscreen />}
+              customExitFullScreen={<BsFullscreenExit />}
+            />
+            <ZoomControl
+              className="ico"
+              customZoomIn={<BsZoomIn />}
+              customZoomOut={<BsZoomOut />}
+              customZoomCenter={<BiRadioCircleMarked />}
+            />
+          </div>
+          <div className="contents">
+            <div className="ico">
+              <button
+                type="button"
+                className="ico hide-contents"
+                onClick={() => setShowContents(false)}
+                title="Show caption and description">
+                <GrClose />
+              </button>
             </div>
-          </>
-        )}
-      </SigmaContainer>
+            <GraphTitle filters={filtersState} />
+            <div className="panels">
+              <SearchField filters={filtersState} />
+              <DescriptionPanel />
+              <ClustersPanel
+                clusters={dataset.clusters}
+                filters={filtersState}
+                setClusters={(clusters) =>
+                  setFiltersState((filters) => ({
+                    ...filters,
+                    clusters,
+                  }))
+                }
+                toggleCluster={(cluster) => {
+                  setFiltersState((filters) => ({
+                    ...filters,
+                    clusters: filters.clusters[cluster]
+                      ? omit(filters.clusters, cluster)
+                      : { ...filters.clusters, [cluster]: true },
+                  }));
+                }}
+              />
+              <TagsPanel
+                tags={dataset.tags}
+                filters={filtersState}
+                setTags={(tags) =>
+                  setFiltersState((filters) => ({
+                    ...filters,
+                    tags,
+                  }))
+                }
+                toggleTag={(tag) => {
+                  setFiltersState((filters) => ({
+                    ...filters,
+                    tags: filters.tags[tag]
+                      ? omit(filters.tags, tag)
+                      : { ...filters.tags, [tag]: true },
+                  }));
+                }}
+              />
+              <DetailPanel filters={filtersState} />
+            </div>
+          </div>
+      </SigmaContainer> : <ReactLoading type="spin" color="blue" height={'5%'} width={'5%'} />
+      }
     </div>
   );
 };
