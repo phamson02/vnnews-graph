@@ -1,9 +1,6 @@
 import { useSigma } from "react-sigma-v2";
 import { FC, useEffect } from "react";
 import { keyBy, omit } from "lodash";
-import { circular } from "graphology-layout";
-import forceAtlas2 from "graphology-layout-forceatlas2";
-import betweennessCentrality from "graphology-metrics/centrality/betweenness";
 
 import { Dataset, FiltersState } from "../types";
 
@@ -37,34 +34,6 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({
         articles: edge.articles,
       })
     );
-
-    const positions = circular(graph, { dimensions: ["x", "y"], scale: 100 });
-    graph.forEachNode((node) => {
-      const { x, y } = positions[node];
-      graph.setNodeAttribute(node, "x", x);
-      graph.setNodeAttribute(node, "y", y);
-    });
-
-    // To directly map the result onto a custom attribute:
-    betweennessCentrality.assign(graph, {
-      attributes: { centrality: "score" },
-    });
-
-    forceAtlas2.assign(graph, {
-      iterations: 1000,
-      attributes: {
-        weight: "size",
-      },
-      weighted: true,
-      settings: {
-        adjustSizes: true,
-        barnesHutOptimize: true,
-        barnesHutTheta: 1,
-        scalingRatio: 10,
-        edgeWeightInfluence: 1,
-        gravity: 40,
-      },
-    });
 
     // Use degrees as node sizes:
     const scores = graph
