@@ -19,7 +19,7 @@ const NodeSearchField: FC<{
 
   const [search, setSearch] = useState<string>("");
   const [values, setValues] = useState<Array<{ id: string; label: string }>>(
-    []
+    [],
   );
 
   const refreshValues = () => {
@@ -61,7 +61,7 @@ const NodeSearchField: FC<{
         { ...nodeDisplayData, ratio: 0.05 },
         {
           duration: 600,
-        }
+        },
       );
 
     return () => {

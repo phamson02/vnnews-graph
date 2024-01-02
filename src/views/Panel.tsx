@@ -4,18 +4,21 @@ import AnimateHeight from "react-animate-height";
 
 const DURATION = 300;
 
-const Panel: FC<{ title: JSX.Element | string; initiallyDeployed?: boolean }> = ({
-  title,
-  initiallyDeployed,
-  children,
-}) => {
+const Panel: FC<{
+  title: JSX.Element | string;
+  initiallyDeployed?: boolean;
+}> = ({ title, initiallyDeployed, children }) => {
   const [isDeployed, setIsDeployed] = useState(initiallyDeployed || false);
   const dom = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (isDeployed)
       setTimeout(() => {
-        if (dom.current) dom.current.parentElement!.scrollTo({ top: dom.current.offsetTop - 5, behavior: "smooth" });
+        if (dom.current)
+          dom.current.parentElement!.scrollTo({
+            top: dom.current.offsetTop - 5,
+            behavior: "smooth",
+          });
       }, DURATION);
   }, [isDeployed]);
 

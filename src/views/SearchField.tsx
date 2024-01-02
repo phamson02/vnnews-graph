@@ -1,4 +1,10 @@
-import React, { KeyboardEvent, ChangeEvent, FC, useEffect, useState } from "react";
+import React, {
+  KeyboardEvent,
+  ChangeEvent,
+  FC,
+  useEffect,
+  useState,
+} from "react";
 import { useSigma } from "react-sigma-v2";
 import { Attributes } from "graphology-types";
 import { BsSearch } from "react-icons/bs";
@@ -15,24 +21,32 @@ const SearchField: FC<{ filters: FiltersState }> = ({ filters }) => {
   const sigma = useSigma();
 
   const [search, setSearch] = useState<string>("");
-  const [values, setValues] = useState<Array<{ id: string; label: string }>>([]);
+  const [values, setValues] = useState<Array<{ id: string; label: string }>>(
+    [],
+  );
   const [selected, setSelected] = useState<string | null>(null);
 
   const refreshValues = () => {
     const newValues: Array<{ id: string; label: string }> = [];
     const lcSearch = search.toLowerCase();
     if (!selected && search.length > 1) {
-      sigma.getGraph().forEachNode((key: string, attributes: Attributes): void => {
-        if (!attributes.hidden && attributes.label && attributes.label.toLowerCase().indexOf(lcSearch) === 0)
-          newValues.push({ id: key, label: attributes.label });
-      });
+      sigma
+        .getGraph()
+        .forEachNode((key: string, attributes: Attributes): void => {
+          if (
+            !attributes.hidden &&
+            attributes.label &&
+            attributes.label.toLowerCase().indexOf(lcSearch) === 0
+          )
+            newValues.push({ id: key, label: attributes.label });
+        });
     }
     setValues(newValues);
   };
 
   // Refresh values when search is updated:
   useEffect(() => {
-    refreshValues()
+    refreshValues();
   }, [search]);
 
   // Refresh values when filters are updated (but wait a frame first):
@@ -53,7 +67,7 @@ const SearchField: FC<{ filters: FiltersState }> = ({ filters }) => {
           duration: 600,
         },
       );
-        
+
     return () => {
       sigma.getGraph().setNodeAttribute(selected, "highlighted", false);
     };

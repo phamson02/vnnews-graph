@@ -32,7 +32,7 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({
       graph.addEdge(edge.source, edge.target, {
         size: edge.size / 10,
         articles: edge.articles,
-      })
+      }),
     );
 
     // Use degrees as node sizes:
@@ -50,8 +50,8 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({
         ((graph.getNodeAttribute(node, "score") - minDegree) /
           (maxDegree - minDegree)) *
           (MAX_NODE_SIZE - MIN_NODE_SIZE) +
-          MIN_NODE_SIZE
-      )
+          MIN_NODE_SIZE,
+      ),
     );
 
     return () => graph.clear();
@@ -63,7 +63,7 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({
   useEffect(() => {
     const { clusters, tags } = filters;
     graph.forEachNode((node, { cluster, tag }) =>
-      graph.setNodeAttribute(node, "hidden", !clusters[cluster] || !tags[tag])
+      graph.setNodeAttribute(node, "hidden", !clusters[cluster] || !tags[tag]),
     );
   }, [graph, filters]);
 

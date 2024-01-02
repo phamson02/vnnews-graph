@@ -42,7 +42,7 @@ const DetailPanel: FC<{
           },
           {
             duration: 600,
-          }
+          },
         );
     } else {
       setShowDetails(false);
@@ -90,7 +90,8 @@ const DetailPanel: FC<{
         <>
           <BsInfoCircle className="text-muted" /> Details
         </>
-      }>
+      }
+    >
       <div className="text-center">
         <p className="text-muted">Select two nodes to see details</p>
       </div>
@@ -107,10 +108,7 @@ const DetailPanel: FC<{
         />
       </div>
       {showDetails ? (
-        <EdgesDetailPanel
-          nodePath={nodePath}
-          edgePath={edgePath}
-        />
+        <EdgesDetailPanel nodePath={nodePath} edgePath={edgePath} />
       ) : (
         <div className="text-center">
           <p className="text-muted">No path found</p>

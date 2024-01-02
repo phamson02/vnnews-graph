@@ -18,7 +18,8 @@ const EdgesDetailPanel: FC<{
   return (
     <div>
       {nodePath.map((node, index) => {
-        if (index === nodePath.length - 1) return <h3 key={node}>{label[index]}</h3>;
+        if (index === nodePath.length - 1)
+          return <h3 key={node}>{label[index]}</h3>;
         return (
           <div key={node + nodePath[index + 1]}>
             <h3>{label[index]}</h3>
@@ -26,7 +27,7 @@ const EdgesDetailPanel: FC<{
               key={`${node}-${nodePath[index + 1]}`}
               source={node}
               target={nodePath[index + 1]}
-            />         
+            />
           </div>
         );
       })}

@@ -26,7 +26,7 @@ import {
 } from "react-icons/bs";
 import DetailPanel from "./DetailPanel";
 import { getData } from "../api/getData";
-import ReactLoading from 'react-loading';
+import ReactLoading from "react-loading";
 
 const Root: FC = () => {
   const [showContents, setShowContents] = useState(false);
@@ -39,8 +39,7 @@ const Root: FC = () => {
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
 
   useEffect(() => {
-    getData()
-    .then((dataset: Dataset) => {
+    getData().then((dataset: Dataset) => {
       setDataset(dataset);
       if (!dataset) return null;
       setFiltersState({
@@ -52,12 +51,16 @@ const Root: FC = () => {
   }, []);
 
   return (
-    <div id="app-root" className={showContents ? "show-contents" : ""} style={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    }}>
-      {dataset ? 
+    <div
+      id="app-root"
+      className={showContents ? "show-contents" : ""}
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      {dataset ? (
         <SigmaContainer
           graphOptions={{ type: "undirected" }}
           initialSettings={{
@@ -71,7 +74,8 @@ const Root: FC = () => {
             labelFont: "Lato, sans-serif",
             zIndex: true,
           }}
-          className="react-sigma">
+          className="react-sigma"
+        >
           <GraphSettingsController hoveredNode={hoveredNode} />
           <GraphEventsController setHoveredNode={setHoveredNode} />
           <GraphDataController dataset={dataset} filters={filtersState} />
@@ -82,7 +86,8 @@ const Root: FC = () => {
                 type="button"
                 className="show-contents"
                 onClick={() => setShowContents(true)}
-                title="Show caption and description">
+                title="Show caption and description"
+              >
                 <BiBookContent />
               </button>
             </div>
@@ -104,7 +109,8 @@ const Root: FC = () => {
                 type="button"
                 className="ico hide-contents"
                 onClick={() => setShowContents(false)}
-                title="Show caption and description">
+                title="Show caption and description"
+              >
                 <GrClose />
               </button>
             </div>
@@ -151,8 +157,10 @@ const Root: FC = () => {
               <DetailPanel filters={filtersState} />
             </div>
           </div>
-      </SigmaContainer> : <ReactLoading type="spin" color="blue" height={'5%'} width={'5%'} />
-      }
+        </SigmaContainer>
+      ) : (
+        <ReactLoading type="spin" color="blue" height={"5%"} width={"5%"} />
+      )}
     </div>
   );
 };

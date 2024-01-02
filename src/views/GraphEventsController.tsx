@@ -24,7 +24,7 @@ const GraphEventsController: FC<{
           const encodedSearchQuery = encodeURIComponent(label);
           window.open(
             `https://news.google.com/search?q=${encodedSearchQuery}&hl=vi&gl=VN&ceid=VN:vi`,
-            "_blank"
+            "_blank",
           );
         }
       },
@@ -40,9 +40,7 @@ const GraphEventsController: FC<{
         const mouseLayer = getMouseLayer();
         if (mouseLayer) mouseLayer.classList.remove("mouse-pointer");
       },
-      clickEdge({ edge }) {
-        
-      },
+      clickEdge({ edge }) {},
       enterEdge() {
         const mouseLayer = getMouseLayer();
         if (mouseLayer) mouseLayer.classList.add("mouse-pointer");

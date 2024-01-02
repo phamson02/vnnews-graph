@@ -31,7 +31,11 @@ export function drawRoundRect(
 /**
  * Custom hover renderer
  */
-export function drawHover(context: CanvasRenderingContext2D, data: PlainObject, settings: PlainObject) {
+export function drawHover(
+  context: CanvasRenderingContext2D,
+  data: PlainObject,
+  settings: PlainObject,
+) {
   const size = settings.labelSize;
   const font = settings.labelFont;
   const weight = settings.labelWeight;
@@ -54,7 +58,9 @@ export function drawHover(context: CanvasRenderingContext2D, data: PlainObject, 
   context.font = `${weight} ${subLabelSize}px ${font}`;
   const subLabelWidth = subLabel ? context.measureText(subLabel).width : 0;
   context.font = `${weight} ${subLabelSize}px ${font}`;
-  const clusterLabelWidth = clusterLabel ? context.measureText(clusterLabel).width : 0;
+  const clusterLabelWidth = clusterLabel
+    ? context.measureText(clusterLabel).width
+    : 0;
 
   const textWidth = Math.max(labelWidth, subLabelWidth, clusterLabelWidth);
 
@@ -65,7 +71,14 @@ export function drawHover(context: CanvasRenderingContext2D, data: PlainObject, 
   const hSubLabel = subLabel ? Math.round(subLabelSize / 2 + 9) : 0;
   const hClusterLabel = Math.round(subLabelSize / 2 + 9);
 
-  drawRoundRect(context, x, y - hSubLabel - 12, w, hClusterLabel + hLabel + hSubLabel + 12, 5);
+  drawRoundRect(
+    context,
+    x,
+    y - hSubLabel - 12,
+    w,
+    hClusterLabel + hLabel + hSubLabel + 12,
+    5,
+  );
   context.closePath();
   context.fill();
 
@@ -81,12 +94,20 @@ export function drawHover(context: CanvasRenderingContext2D, data: PlainObject, 
   if (subLabel) {
     context.fillStyle = TEXT_COLOR;
     context.font = `${weight} ${subLabelSize}px ${font}`;
-    context.fillText(subLabel, data.x + data.size + 3, data.y - (2 * size) / 3 - 2);
+    context.fillText(
+      subLabel,
+      data.x + data.size + 3,
+      data.y - (2 * size) / 3 - 2,
+    );
   }
 
   context.fillStyle = data.color;
   context.font = `${weight} ${subLabelSize}px ${font}`;
-  context.fillText(clusterLabel, data.x + data.size + 3, data.y + size / 3 + 3 + subLabelSize);
+  context.fillText(
+    clusterLabel,
+    data.x + data.size + 3,
+    data.y + size / 3 + 3 + subLabelSize,
+  );
 }
 
 /**

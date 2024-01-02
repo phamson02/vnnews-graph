@@ -18,21 +18,33 @@ const ClustersPanel: FC<{
 
   const nodesPerCluster = useMemo(() => {
     const index: Record<string, number> = {};
-    graph.forEachNode((_, { cluster }) => (index[cluster] = (index[cluster] || 0) + 1));
+    graph.forEachNode(
+      (_, { cluster }) => (index[cluster] = (index[cluster] || 0) + 1),
+    );
     return index;
   }, []);
 
-  const maxNodesPerCluster = useMemo(() => Math.max(...values(nodesPerCluster)), [nodesPerCluster]);
-  const visibleClustersCount = useMemo(() => Object.keys(filters.clusters).length, [filters]);
+  const maxNodesPerCluster = useMemo(
+    () => Math.max(...values(nodesPerCluster)),
+    [nodesPerCluster],
+  );
+  const visibleClustersCount = useMemo(
+    () => Object.keys(filters.clusters).length,
+    [filters],
+  );
 
-  const [visibleNodesPerCluster, setVisibleNodesPerCluster] = useState<Record<string, number>>(nodesPerCluster);
+  const [visibleNodesPerCluster, setVisibleNodesPerCluster] =
+    useState<Record<string, number>>(nodesPerCluster);
   useEffect(() => {
     // To ensure the graphology instance has up to data "hidden" values for
     // nodes, we wait for next frame before reindexing. This won't matter in the
     // UX, because of the visible nodes bar width transition.
     requestAnimationFrame(() => {
       const index: Record<string, number> = {};
-      graph.forEachNode((_, { cluster, hidden }) => !hidden && (index[cluster] = (index[cluster] || 0) + 1));
+      graph.forEachNode(
+        (_, { cluster, hidden }) =>
+          !hidden && (index[cluster] = (index[cluster] || 0) + 1),
+      );
       setVisibleNodesPerCluster(index);
     });
   }, [filters]);
@@ -59,10 +71,17 @@ const ClustersPanel: FC<{
       }
     >
       <p>
-        <i className="text-muted">Click a cluster to show/hide related entities from the network.</i>
+        <i className="text-muted">
+          Click a cluster to show/hide related entities from the network.
+        </i>
       </p>
       <p className="buttons">
-        <button className="btn" onClick={() => setClusters(mapValues(keyBy(clusters, "key"), () => true))}>
+        <button
+          className="btn"
+          onClick={() =>
+            setClusters(mapValues(keyBy(clusters, "key"), () => true))
+          }
+        >
           <AiOutlineCheckCircle /> Check all
         </button>{" "}
         <button className="btn" onClick={() => setClusters({})}>
@@ -78,7 +97,9 @@ const ClustersPanel: FC<{
               className="caption-row"
               key={cluster.key}
               title={`${nodesCount} page${nodesCount > 1 ? "s" : ""}${
-                visibleNodesCount !== nodesCount ? ` (only ${visibleNodesCount} visible)` : ""
+                visibleNodesCount !== nodesCount
+                  ? ` (only ${visibleNodesCount} visible)`
+                  : ""
               }`}
             >
               <input
@@ -88,10 +109,21 @@ const ClustersPanel: FC<{
                 id={`cluster-${cluster.key}`}
               />
               <label htmlFor={`cluster-${cluster.key}`}>
-                <span className="circle" style={{ background: cluster.color, borderColor: cluster.color }} />{" "}
+                <span
+                  className="circle"
+                  style={{
+                    background: cluster.color,
+                    borderColor: cluster.color,
+                  }}
+                />{" "}
                 <div className="node-label">
                   <span>{cluster.clusterLabel}</span>
-                  <div className="bar" style={{ width: (100 * nodesCount) / maxNodesPerCluster + "%" }}>
+                  <div
+                    className="bar"
+                    style={{
+                      width: (100 * nodesCount) / maxNodesPerCluster + "%",
+                    }}
+                  >
                     <div
                       className="inside-bar"
                       style={{

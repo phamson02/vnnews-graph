@@ -11,7 +11,8 @@ const EdgePanel: FC = () => {
         <>
           <BsInfoCircle className="text-muted" /> Article
         </>
-      }>
+      }
+    >
       <div className="search-wrapper">
         <input type="search" placeholder="Search in nodes..." />
         <BsSearch className="icon" />

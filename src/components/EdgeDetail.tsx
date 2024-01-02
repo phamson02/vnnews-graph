@@ -4,7 +4,6 @@ import { BsArrow90DegDown } from "react-icons/bs";
 import { useSigma } from "react-sigma-v2";
 import { ArticleData } from "../types";
 
-
 const EdgeDetail: FC<{
   source: string;
   target: string;
@@ -19,7 +18,7 @@ const EdgeDetail: FC<{
     target,
     (key: string, attributes: Attributes): void => {
       articles.push(...attributes.articles);
-    }
+    },
   );
 
   return (
@@ -27,7 +26,7 @@ const EdgeDetail: FC<{
       <button onClick={() => setShowArticles(!showArticles)}>
         <BsArrow90DegDown /> {showArticles ? "Hide" : "Show"} Articles
       </button>
-      {showArticles && 
+      {showArticles && (
         <ul>
           {articles.map((article, index) => (
             <li key={index}>
@@ -39,7 +38,8 @@ const EdgeDetail: FC<{
               </p>
             </li>
           ))}
-        </ul>}
+        </ul>
+      )}
     </div>
   );
 };
