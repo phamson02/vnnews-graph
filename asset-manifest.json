@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/vnnews-graph/static/css/main.ffef2fb8.css",
-    "main.js": "/vnnews-graph/static/js/main.88ee822c.js",
-    "index.html": "/vnnews-graph/index.html",
-    "main.ffef2fb8.css.map": "/vnnews-graph/static/css/main.ffef2fb8.css.map",
-    "main.88ee822c.js.map": "/vnnews-graph/static/js/main.88ee822c.js.map"
+    "main.css": "/static/css/main.ffef2fb8.css",
+    "main.js": "/static/js/main.a6ac6166.js",
+    "index.html": "/index.html",
+    "main.ffef2fb8.css.map": "/static/css/main.ffef2fb8.css.map",
+    "main.a6ac6166.js.map": "/static/js/main.a6ac6166.js.map"
   },
   "entrypoints": [
     "static/css/main.ffef2fb8.css",
-    "static/js/main.88ee822c.js"
+    "static/js/main.a6ac6166.js"
   ]
 }
