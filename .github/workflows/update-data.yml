@@ -23,11 +23,7 @@ jobs:
       - name: Predeploy
         run: CI=false npm run predeploy
 
-      - name: Install git
-        run: sudo apt-get install git
-
-      - name: Configure git
-        run: git config user.name github-actions && git config user.email github-actions@github.com
-
-      - name: Deploy
-        run: CI=false npm run deploy
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: build
