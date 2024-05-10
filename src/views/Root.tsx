@@ -25,7 +25,6 @@ import {
   BsZoomOut,
 } from "react-icons/bs";
 import DetailPanel from "./DetailPanel";
-import { getData } from "../api/getData";
 import ReactLoading from "react-loading";
 
 const Root: FC = () => {
@@ -39,15 +38,17 @@ const Root: FC = () => {
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
 
   useEffect(() => {
-    getData().then((dataset: Dataset) => {
-      setDataset(dataset);
-      if (!dataset) return null;
-      setFiltersState({
-        clusters: mapValues(keyBy(dataset.clusters, "key"), constant(true)),
-        tags: mapValues(keyBy(dataset.tags, "key"), constant(true)),
+    fetch(`${process.env.PUBLIC_URL}/dataset.json`)
+      .then((res) => res.json())
+      .then((dataset: Dataset) => {
+        setDataset(dataset);
+        if (!dataset) return null;
+        setFiltersState({
+          clusters: mapValues(keyBy(dataset.clusters, "key"), constant(true)),
+          tags: mapValues(keyBy(dataset.tags, "key"), constant(true)),
+        });
+        requestAnimationFrame(() => setDataReady(true));
       });
-      requestAnimationFrame(() => setDataReady(true));
-    });
   }, []);
 
   return (

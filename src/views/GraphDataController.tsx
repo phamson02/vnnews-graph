@@ -30,7 +30,7 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({
     });
     dataset.edges.forEach((edge) =>
       graph.addEdge(edge.source, edge.target, {
-        size: edge.size / 10,
+        size: edge.size / 2,
         articles: edge.articles,
       }),
     );
@@ -39,20 +39,23 @@ const GraphDataController: FC<{ dataset: Dataset; filters: FiltersState }> = ({
     const scores = graph
       .nodes()
       .map((node) => graph.getNodeAttribute(node, "score"));
-    const minDegree = Math.min(...scores);
-    const maxDegree = Math.max(...scores);
-    const MIN_NODE_SIZE = 3;
+    const minScore = Math.min(...scores);
+    const maxScore = Math.max(...scores);
+    const MIN_NODE_SIZE = 6;
     const MAX_NODE_SIZE = 20;
-    graph.forEachNode((node) =>
-      graph.setNodeAttribute(
-        node,
-        "size",
-        ((graph.getNodeAttribute(node, "score") - minDegree) /
-          (maxDegree - minDegree)) *
-          (MAX_NODE_SIZE - MIN_NODE_SIZE) +
-          MIN_NODE_SIZE,
-      ),
-    );
+
+    const scaleSize = (score: number) => {
+      return (
+        MIN_NODE_SIZE +
+        ((score - minScore) / (maxScore - minScore)) *
+          (MAX_NODE_SIZE - MIN_NODE_SIZE)
+      );
+    };
+
+    graph.forEachNode((node) => {
+      const score = graph.getNodeAttribute(node, "score");
+      graph.setNodeAttribute(node, "size", scaleSize(score));
+    });
 
     return () => graph.clear();
   }, [graph, dataset]);

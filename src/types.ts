@@ -2,10 +2,12 @@ export interface NodeData {
   key: string;
   label: string;
   tag: string;
-  x: number;
-  y: number;
   cluster: string;
   score: number;
+
+  // Optional attributes:
+  x?: number;
+  y?: number;
 }
 
 export interface EdgeData {
@@ -35,6 +37,7 @@ export interface Tag {
 }
 
 export interface Dataset {
+  date: string;
   nodes: NodeData[];
   edges: EdgeData[];
   clusters: Cluster[];
